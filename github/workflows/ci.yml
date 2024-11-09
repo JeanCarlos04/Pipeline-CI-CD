@@ -1,0 +1,63 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar en push a la rama principal
+  pull_request:
+    branches:
+      - main  # Ejecutar en pull request hacia la rama principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # El runner de GitHub Actions usará Ubuntu para ejecutar las tareas
+
+    steps:
+    # Paso 1: Check out del código
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Paso 2: Configurar Node.js (puedes cambiar la versión si es necesario)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Usa la versión de Node.js que necesites
+
+    # Paso 3: Instalar dependencias
+    - name: Install dependencies
+      run: npm install
+
+    # Paso 4: Ejecutar pruebas
+    - name: Run tests with Jest
+      run: npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # Esto asegura que el despliegue solo ocurra si la etapa de build pasa
+
+    steps:
+    # Paso 1: Check out del código
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Paso 2: Configurar Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    # Paso 3: Instalar dependencias
+    - name: Install dependencies
+      run: npm install
+
+    # Paso 4: Construir el proyecto (si es necesario)
+    - name: Build project
+      run: npm run build
+
+    # Paso 5: Configurar despliegue en GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages  # Rama donde se publicará el contenido
+        folder: build  # Carpeta que contiene el proyecto compilado, usualmente 'build' o 'dist'
+        token: ${{ secrets.GITHUB_TOKEN }}  # Usar el token para autenticar el despliegue
