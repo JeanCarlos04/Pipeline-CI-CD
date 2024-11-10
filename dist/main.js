@@ -1,0 +1,1 @@
+(()=>{var e={127:e=>{e.exports=function(){console.log("Texto cambiado")}},44:(e,t,o)=>{const n=o(127);e.exports={changeTextInConsole:n,changeTextInDOM:function(){document.getElementById("greeting").textContent="¡Texto cambiado!"}}}},t={};!function o(n){var r=t[n];if(void 0!==r)return r.exports;var x=t[n]={exports:{}};return e[n](x,x.exports,o),x.exports}(44)})();

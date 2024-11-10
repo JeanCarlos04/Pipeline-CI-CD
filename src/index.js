@@ -1,5 +1,8 @@
-function changeText() {
+const changeTextInConsole = require("./app");
+
+function changeTextInDOM() {
   document.getElementById("greeting").textContent = "¡Texto cambiado!";
 }
-module.exports = changeText;
-const changeText = require("../app");
+
+// Exporta ambas funciones si necesitas usarlas en otros archivos
+module.exports = { changeTextInConsole, changeTextInDOM };
